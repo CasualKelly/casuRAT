@@ -35,8 +35,8 @@ Configurable Server (Bind port/IP)
 Database Backend  
   
 # To-do list  
-01. Set up virtual machines for staging and testing (Kali --> Ubuntu)  
-02. Create a client and server that can connect to each other  
+01. ~~Set up virtual machines for staging and testing (Kali --> Ubuntu)~~  
+02. ~~Create a client and server that can connect to each other~~  
 03. Enable call back from client to server on an interval  
 04. Allow client to retrieve commands then save results to memory  
 05. Have client send results upon connecting to server, have server save to file  
