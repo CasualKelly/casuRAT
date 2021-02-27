@@ -1,13 +1,14 @@
 #!/usr/bin/python3
 
-#Standard libraries only
+# Standard libraries only.
 import socket
 
-# initialize socket bind variables with user input
+# Initialize socket bind variables with user input.
 LHOST = str(input("Local bind address\n"))
 LPORT = int(input("Local bind port\n"))
+LSERVER = (LHOST, LPORT)
 
-# create a socket that accepts connections, prints who connected, and recieves a message
+# Create a socket that accepts connections, prints who connected, and recieves a message.
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.bind((LHOST, LPORT))
     s.listen()
@@ -15,7 +16,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     with conn:
         print('connected by', addr)
         while True:
-            data = conn.recv(1024)
-            if not data:
+            DATA = conn.recv(1024)
+            if not DATA:
                 break
-            conn.sendall(data)
+            print(DATA)

@@ -3,14 +3,15 @@
 # Standard libraries only
 import socket
 
-#initialize remote host variables with user input
+# Initialize remote host variables with user input
 RHOST = str(input("C2 IP Address\n" ))
 RPORT = int(input("C2 Port\n"))
+RSERVER = (RHOST, RPORT)
 
-#Create a socket object, connect to the server, and send a test message
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    s.connect((RHOST, RPORT))
-    s.sendall(b'Successful Test')
-    data = s.recv(1024)
+# Simple input collection
+DATA = str(input("What would you like to say?\n" ))
 
-print('Test received', repr(data))
+# Connect out
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect(RSERVER)
+s.sendall(bytes(DATA,"utf-8"))
