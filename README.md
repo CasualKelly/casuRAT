@@ -42,7 +42,8 @@ Database Backend
 05. Have client send results upon connecting to server, have server save to file  
 06. Set up command queue on server that pushes all commands if correct IP connects  
 07. Create interface that pulls command history and corresponding results  
-08. Create server interface allowing custom IP and port bind  
+08. ~~Create server interface allowing custom IP and port bind~~  
+    a. Create arguements, help, and sanitization  
 09. Implement some form of encryption (ssl?) between server and client  
 10. Implement back end DB (nosql?) to store command, result, time, and client  
 11. Objects?  

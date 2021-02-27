@@ -3,9 +3,9 @@
 #Standard libraries only
 import socket
 
-# initialize variables with hardcoded listen address
-LHOST = '172.16.100.133'
-LPORT = 7001
+# initialize socket bind variables with user input
+LHOST = str(input("Local bind address\n"))
+LPORT = int(input("Local bind port\n"))
 
 # create a socket that accepts connections, prints who connected, and recieves a message
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:

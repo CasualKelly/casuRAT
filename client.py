@@ -3,9 +3,9 @@
 # Standard libraries only
 import socket
 
-#initialize variables with hardcoded server address
-RHOST = '172.16.100.133'
-RPORT = 7001
+#initialize remote host variables with user input
+RHOST = str(input("C2 IP Address\n" ))
+RPORT = int(input("C2 Port\n"))
 
 #Create a socket object, connect to the server, and send a test message
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
