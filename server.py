@@ -29,7 +29,6 @@ s.listen()
 with conn:
     print('connected by', addr)
     for c in cmd:
-        print(c)
         conn.sendall(bytes((c), "utf-8"))
     while True:
         data = conn.recv(1024).decode()
