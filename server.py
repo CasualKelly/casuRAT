@@ -18,7 +18,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     with conn:
         print('connected by', addr)
         while True:
-            DATA = conn.recv(1024)
+            DATA = conn.recv(1024).decode()
             if not DATA:
                 break
             print(DATA)
