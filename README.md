@@ -37,8 +37,8 @@ Database Backend
 # To-do list  
 01. ~~Set up virtual machines for staging and testing (Kali --> Ubuntu)~~  
 02. ~~Create a client and server that can connect to each other~~  
-03. Enable call back from client to server on an interval  
-04. Allow client to retrieve commands then save results to memory  
+03. ~~Enable call back from client to server on an interval~~  
+04. ~~Allow client to retrieve and run commands~~
 05. Have client send results upon connecting to server, have server save to file  
 06. Set up command queue on server that pushes all commands if correct IP connects  
 07. Create interface that pulls command history and corresponding results  
