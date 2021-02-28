@@ -3,10 +3,8 @@
 # Standard libraries only.
 import subprocess
 
-# Run commands on host, return results.
+#Take user input and run command, return the stdout.
 CMD = input("What is your command\n")
 CMDARG = str(CMD).split(" ")
-subprocess.run(CMDARG)
-
-# POC, will be pushed into the connection later.
-print("completed", CMD)
+execute = subprocess.run(CMDARG, capture_output=True, text=True)
+print("Command Ran:",CMD,"\n", execute.stdout)
