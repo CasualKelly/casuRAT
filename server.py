@@ -2,9 +2,8 @@
 
 # Standard libraries only.
 import socket
-import time
 
-# Initialize socket bind variables with user input.
+# Initialize socket bind variables with user input, hardcoded for testing.
 # lhost = str(input("Local bind address\n"))
 # lport = int(input("Local bind port\n"))
 lhost = '127.0.0.1'
@@ -14,15 +13,12 @@ lserver = (lhost, lport)
 # Take a command from a user
 cmd = input("What is your command\n")
 
-# Create a socket that accepts connections, prints who connected, and recieves a message.
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    s.bind((lhost, lport))
-    s.listen()
-    conn, addr = s.accept()
-    with conn:
-        print('connected by', addr)
-        while True:
-            conn.sendall(bytes(cmd, "utf-8"))
-            break
-            if not cmd:
-                break
+# Establish server, and listen for a connection
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind((lhost, lport))
+s.listen()
+
+# Accept a connection and send the command
+(conn, addr) = s.accept()
+print('connected by', addr)
+conn.sendall(bytes(cmd, "utf-8"))
