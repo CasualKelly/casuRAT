@@ -4,14 +4,20 @@
 import socket
 
 # Initialize socket bind variables with user input, hardcoded for testing.
-# lhost = str(input("Local bind address\n"))
-# lport = int(input("Local bind port\n"))
-lhost = '127.0.0.1'
-lport = 7002
+lhost = str(input("Local bind address\n"))
+lport = int(input("Local bind port\n"))
 lserver = (lhost, lport)
 
 # Take a command from a user
-cmd = input("What is your command\n")
+cmd = []
+while True:
+    cmdinput = str(input("Queue a command, or hit enter if done: "))
+    if cmdinput:
+        cmd.append(cmdinput)
+        cmdinput = None
+    else:
+        break
+print (cmd)
 
 # Establish server, and listen for a connection.
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -22,9 +28,12 @@ s.listen()
 (conn, addr) = s.accept()
 with conn:
     print('connected by', addr)
-    conn.sendall(bytes(cmd, "utf-8"))
+    for c in cmd:
+        print(c)
+        conn.sendall(bytes((c), "utf-8"))
     while True:
         data = conn.recv(1024).decode()
         if not data:
+            conn.close
             break
         print(data)
