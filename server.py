@@ -4,8 +4,10 @@
 import socket
 
 # Initialize socket bind variables with user input.
-LHOST = str(input("Local bind address\n"))
-LPORT = int(input("Local bind port\n"))
+# LHOST = str(input("Local bind address\n"))
+LHOST = '127.0.0.1'
+# LPORT = int(input("Local bind port\n"))
+LPORT = 7001
 LSERVER = (LHOST, LPORT)
 
 # Create a socket that accepts connections, prints who connected, and recieves a message.
