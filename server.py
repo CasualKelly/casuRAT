@@ -18,7 +18,7 @@ while True:
         cmd_list.append(cmd_input)
         cmd_input = None
     else:
-        print (cmd_list)
+        print (cmd_list, "\n")
         dill_cmd = pickle.dumps(cmd_list)
         break
 
@@ -30,11 +30,12 @@ s.listen()
 # Accept a connection, send the command, and receive the data.
 (conn, addr) = s.accept()
 with conn:
-    print('Connection from', addr)
+    print('Connection from', addr, "\n")
     conn.send(dill_cmd)
     while True:
         output = conn.recv(1024).decode()
         if not output:
             conn.close
             break
+        print(addr, end=': ')
         print(output)

