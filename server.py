@@ -4,6 +4,7 @@
 import socket
 import time
 import pickle
+import datetime
 
 # Initialize socket bind variables with user input, hardcoded for testing.
 lhost = str(input("Local bind address: "))
@@ -37,5 +38,6 @@ with conn:
         if not output:
             conn.close
             break
-        print(addr, end=': ')
+        utctime = time.asctime(time.gmtime())
+        print(utctime, '|', addr[0], end=' | ')
         print(output)
