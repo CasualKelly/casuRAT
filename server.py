@@ -55,4 +55,5 @@ while True:
     (conn, addr) = s.accept()
     service_connection()
     s.shutdown
-
+    s.close
+    s = None

