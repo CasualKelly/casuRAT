@@ -1,43 +1,58 @@
 #!/usr/bin/python3
 
 # Standard libraries only.
+import sys
 import socket
 import time
 import pickle
-import datetime
 
-# Initialize socket bind variables with user input, hardcoded for testing.
-lhost = str(input("Local bind address: "))
-lport = int(input("Local bind port: "))
+
+# Take a command from a user, when no more input pickle up the list and break out.
+def take_cmds():
+    cmd_list = []
+    while True:
+        cmd_input = str(input("Queue a command, or hit enter if done: "))
+        if cmd_input:
+            cmd_list.append(cmd_input)
+            cmd_input = None
+        elif cmd_list:
+            print (cmd_list, "\n")
+            global dill_cmd
+            dill_cmd = pickle.dumps(cmd_list)
+            break
+        else:
+            print("no commands supplied")
+
+
+def service_connection():
+    with conn:
+        print('Connection from', addr, "\n")
+        conn.send(dill_cmd)
+        while True:
+            output = conn.recv(1024).decode()
+            if not output:
+                conn.close
+                break
+            utctime = time.asctime(time.gmtime())
+            print(utctime, '|', addr[0], end=' | ')
+            print(output)
+
+
+if len(sys.argv) != 3:
+    print("usage:", sys.argv[0], "<lhost> <lport>")
+    sys.exit(1)
+
+
+lhost, lport = sys.argv[1], int(sys.argv[2])
 lserver = (lhost, lport)
 
-# Take a command from a user, when no more input pickle up the list and break out
-cmd_list = []
+
 while True:
-    cmd_input = str(input("Queue a command, or hit enter if done: "))
-    if cmd_input:
-        cmd_list.append(cmd_input)
-        cmd_input = None
-    else:
-        print (cmd_list, "\n")
-        dill_cmd = pickle.dumps(cmd_list)
-        break
+    take_cmds()
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind(lserver)
+    s.listen()
+    (conn, addr) = s.accept()
+    service_connection()
+    s.shutdown
 
-# Establish server, and listen for a connection.
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind((lhost, lport))
-s.listen()
-
-# Accept a connection, send the command, and receive the data.
-(conn, addr) = s.accept()
-with conn:
-    print('Connection from', addr, "\n")
-    conn.send(dill_cmd)
-    while True:
-        output = conn.recv(1024).decode()
-        if not output:
-            conn.close
-            break
-        utctime = time.asctime(time.gmtime())
-        print(utctime, '|', addr[0], end=' | ')
-        print(output)

