@@ -36,6 +36,13 @@ def service_connection():
             utctime = time.asctime(time.gmtime())
             print(utctime, '|', addr[0], end=' | ')
             print(output)
+            with open('casulog.txt','a') as log:
+                log.write(utctime)
+                log.write(" | ")
+                log.write(addr[0])
+                log.write(" | ")
+                log.write(output)
+                log.write(" \n")
 
 
 if len(sys.argv) != 3:
