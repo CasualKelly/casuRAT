@@ -10,18 +10,45 @@ import pickle
 # Take a command from a user, when no more input pickle up the list and break out.
 def take_cmds():
     cmd_list = []
-    while True:
-        cmd_input = str(input("Queue a command, or hit enter if done: "))
-        if cmd_input:
-            cmd_list.append(cmd_input)
-            cmd_input = None
-        elif cmd_list:
-            print (cmd_list, "\n")
-            global dill_cmd
-            dill_cmd = pickle.dumps(cmd_list)
-            break
-        else:
-            print("no commands supplied")
+    cmd_input = str(input("What is the IP of the client: "))
+    if cmd_input:
+        cmd_list.append(cmd_input)
+        cmd_input = None
+        while True:
+            cmd_input = (str(input("Queue a command, or hit enter if done: ")))
+            if cmd_input:
+                cmd_list.append(cmd_input)
+                cmd_input = None
+            elif cmd_list[1]:
+                print (cmd_list, "\n")
+                global dill_cmd
+                dill_cmd = pickle.dumps(cmd_list[1:])
+                break
+            else:
+                print("no commands supplied")
+    else:
+        print("I need a client IP cheif")
+        sys.exit(1)
+
+# Take second IP from user
+#    while True
+#    cmd_list2 = []
+#    cmd_input2 = str(input("Additional client IP. If none, hit enter: "))
+#    if cmd_input2:
+#        while True:
+#            cmd_input2 = str(input("Queue a command, or hit enter if done: "))
+#            if cmd_input2:
+#                cmd_list2.append(cmd_input2)
+#                cmd_input2 = None
+#            elif cmd_list2:
+#                print (cmd_list2, "\n")
+#                global dill_cmd2
+#                dill_cmd2 = pickle.dumps(cmd_list2)
+#                break
+#            else:
+#                print("no commands supplied")
+#    else:
+#        return
 
 
 def service_connection():
