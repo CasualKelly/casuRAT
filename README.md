@@ -1,7 +1,7 @@
 # CasuRAT  
 #### Simple python RAT for job interview and practice.  
   
-casuRAT and it's partner server are ran entirely off of standard modules. As long as there is a somewhat updated version of python3, all that needs to be done is upload the server.py to a server you control, upload casuRAT.py to targets, ensure they have execute permissions, and run them with the below arguements.  
+casuRAT and it's partner server are ran entirely off of standard modules. As long as there is a somewhat updated version of python3, all that needs to be done is upload dbsetup.py & server.py to a server you control, upload casuRAT.py to targets, ensure they all have execute permissions, and run them with the below arguements.  
   
 # Client Usage:  
 #### python3 ./casuRAT_compiled.py [rhost] [rport] [beacon_interval_seconds]  
@@ -11,7 +11,7 @@ casuRAT and it's partner server are ran entirely off of standard modules. As lon
   
 Running casuRAT will start off with a prompt requesting user input on web proxy settings. Once the proxy chain has completed, casuRAT will make an initial attempt to reach out. Following a success or failure to connect, it will then sleep for the given time in seconds before attempting another connection. 
 
-On a successful and authenticated connection, casuRAT will recieve a serialized list containing commands and parameters. It will run the commands on target, then return the stdout and stderr along with a simple timestamp/IP/command befoer each output to the server in a serialized object. As this is a proof of concept, below are statements the client prints to the terminal for troubleshooting. Real world application would have these error messages removed.  
+On a successful and authenticated connection, casuRAT will recieve a serialized list containing commands and parameters. It will run the commands on target, then return the stdout and stderr along with a simple timestamp/IP/command before each output to the server in a serialized object. As this is a proof of concept, below are statements the client prints to the terminal for troubleshooting. Real world application would have these error messages removed to cut down on strings.  
   
 "Dad isn't home..." - No connection was established, most likely because the server is not active.  
 "Dad hung up on me..." - A non-graceful reset occured while the connection was established.  
@@ -19,15 +19,23 @@ On a successful and authenticated connection, casuRAT will recieve a serialized 
 "Told dad all about $CMDS!" - Message confirming that commands were ran and sent off to the server.  
   
 The client should ideally run indefinitely, and is at a decently stable place now.  
+
+
+# sqlite3 Database initialization
+#### python3 ./dbsetup.py
+  
+Running the DB setup will create casuRAT.db in the directory it ran from, and create a single table tailored to ingesting commands. Without the table, server.py will most likely throw an error.
+  
   
 # Server Usage  
 #### python3 ./server.py [lhost] [lport] 
  ##### lhost - Designate the listening IP address  
  ##### lport - Designate the listening port  
    
+
+Starting server.py will ask if you would like to query the database. This will display all entries. Pre-formatted options should come in the future.
   
-  
-Starting the server will prompt the user with a couple input loops that will take client IP addresses, and desired commands to be ran. The server will continue to run until all commands have been retrieved before exiting. If an address connects to the server that is not authorized to retrieve commands, a string "refused" will be sent and the socket will go back into it's listening state. A current limitation includes only holding two IPs/queues. Another limitation is that the server listens in a blocking state, meaning only one connection can be serviced at a time. Wnsure that the waits on clients are staggered to not collide.  
+Starting the server will prompt the user with a couple input trees that will take client IP addresses, and desired commands to be ran. The server will continue to run until all commands have been retrieved before exiting. If an address connects to the server that is not authorized to retrieve commands, a string "refused" will be sent and the socket will go back into it's listening state. A current limitation includes only holding two IPs/queues. Another limitation is that the server listens in a blocking state, meaning only one connection can be serviced at a time. Ensure that the waits on clients are staggered to not collide.  
   
 The server will only exit once all command queues have been retrieved. Adding another queue requires restarting the script. ctrl+c while in listening mode should gracefully exit.  
   
