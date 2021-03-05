@@ -73,28 +73,35 @@ def take_cmds2():
 def send_cmd(caddr, clist):
 # Send the appropriate command list after pickleing it.
         print('Connection from', caddr, "\n")
-        dill_cmd = pickle.dumps(clist[1:])
+        dill_cmd = pickle.dumps(clist)
         conn.send(dill_cmd)
 
 
-def return_cmds():
+def return_cmds(sock, raddr, timeout=2):
 # Recieve the command results, and print them to stdout/file.
     while True:
-        output = ""
-        output += pickle.loads(conn.recv
-        if not output:
-            conn.close
-            return
-        utctime = time.asctime(time.gmtime())
-        print(utctime, '|', addr[0], end=' | ')
-        print(output)
+        output = ''
+        total_output= ''
+        begin = time.time()
+        while True:
+            if total_output and time.time() - begin > timeout:
+                break
+            elif time.time()-begin > timeout*2:
+                break
+            try:        
+                output = pickle.loads(conn.recv(1024))
+                if output:
+                    total_output += output
+                    begin=time.time()
+                else:
+                    conn.close()
+                    return
+            except:
+                pass
+        print(raddr, " | ", total_output)
         with open('casulog.txt','a') as log:
-            log.write(utctime)
-            log.write(" | ")
-            log.write(addr[0])
-            log.write(" | ")
-            log.write(output)
-            log.write(" \n")
+            log.write(total_output)      
+            return
 
 
 take_cmds()
@@ -103,6 +110,9 @@ take_cmds2()
 
 while True:
 # Core loop, start with setting up socket bind and listen.
+    if not cmd_list and not cmd_list2:
+        print("All commands retrieved")
+        sys.exit(1)
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     s.bind(lserver)
@@ -122,18 +132,18 @@ while True:
         if cmd_list:
             if addr[0] == cmd_list[0]:
                 send_cmd(addr, cmd_list)
-                return_cmds()
+                return_cmds(s, addr[0])
                 cmd_list = []
             else:
                 print(addr[0], "tried to connect, but was not", cmd_list[0])
         if cmd_list2:
             if addr[0] == cmd_list2[0]:
                 send_cmd(addr, cmd_list2)
-                return_cmds()
+                return_cmds(s, addr[0])
                 cmd_list2 = []
             else:
                 print(addr[0], "tried to connect, but was not", cmd_list2[0])
 # Send a string to client resetting hanging, then reset the server socket.
     conn.send(dill_refuse)
-    s.close
+    s.close()
     s = None
