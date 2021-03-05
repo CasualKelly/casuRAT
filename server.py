@@ -35,7 +35,7 @@ def take_cmds():
             if cmd_input:
                 cmd_list.append(cmd_input)
                 cmd_input = None
-            elif cmd_list[1]:
+            elif len(cmd_list) >= 2:
                 print (cmd_list, "\n")
                 global dill_cmd
                 dill_cmd = pickle.dumps(cmd_list[1:])
@@ -57,7 +57,7 @@ def take_cmds2():
                 if cmd_input2:
                     cmd_list2.append(cmd_input2)
                     cmd_input2 = None
-                elif cmd_list2[2]:
+                elif len(cmd_list2) >= 2:
                     print (cmd_list2, "\n")
                     global dill_cmd2
                     dill_cmd2 = pickle.dumps(cmd_list2[1:])
