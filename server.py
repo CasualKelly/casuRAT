@@ -71,7 +71,7 @@ def take_cmds2():
 def send_cmd(caddr, clist):
 # Send the appropriate command list after pickleing it.
         global sent_list
-        sent_list = "".join(clist)
+        sent_list = " ".join(clist[1:])
         print('Connection from', caddr, "\n")
         dill_cmd = pickle.dumps(clist)
         conn.send(dill_cmd)
@@ -98,9 +98,9 @@ def return_cmds(sock, raddr, timeout=2):
                     return
             except:
                 pass
-        print(total_output)
         utctime = time.asctime(time.gmtime())
-        sql_push = (str(addr), str(utctime), str(sent_list), str(total_output))
+        print(addr[0] + ' | ' + utctime + ' | ' + sent_list + total_output + '\n')
+        sql_push = (str(addr[0]), str(utctime), str(sent_list), str(total_output))
         c.execute('INSERT INTO HISTORY VALUES (?,?,?,?)', sql_push)
         with open('casulog.txt','a') as log:
             log.write(total_output)      

