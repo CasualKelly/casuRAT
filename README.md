@@ -9,9 +9,9 @@ casuRAT and it's partner server are ran entirely off of standard modules. As lon
   ##### rport - Listening port of the C2 server  
   ##### beacon_interval_seconds - The amount of time between attempts to communicate with the C2 server  
   
-  
-  
-Upon starting casuRAT.py it will make an initial attempt to reach out. Following a success or failure to connect, it will then sleep for the given time in seconds before attempting another connection. On a successful attempt, it will recieve a serialized list containing commands and parameters. It will run the commands on target, then return the stdout and stderr along with a simple timestamp/IP/command befoer each output to the server in a serialized object. As this is a proof of concept, below are statements the client prints to the terminal for troubleshooting. Real world application would have these error messages removed.  
+Running casuRAT will start off with a prompt requesting user input on web proxy settings. Once the proxy chain has completed, casuRAT will make an initial attempt to reach out. Following a success or failure to connect, it will then sleep for the given time in seconds before attempting another connection. 
+
+On a successful and authenticated connection, casuRAT will recieve a serialized list containing commands and parameters. It will run the commands on target, then return the stdout and stderr along with a simple timestamp/IP/command befoer each output to the server in a serialized object. As this is a proof of concept, below are statements the client prints to the terminal for troubleshooting. Real world application would have these error messages removed.  
   
 "Dad isn't home..." - No connection was established, most likely because the server is not active.  
 "Dad hung up on me..." - A non-graceful reset occured while the connection was established.  
@@ -89,13 +89,13 @@ server.py
   -Compiled with py_compile. Obfuscates the client script into byte-code. Running strings against it will still give a strong indication of its purpose, but it is better than nothing.
 ###### ~~Obfuscate or encrypt command & control traffic~~  
   -Traffic in both directions is serialized into a pickled object. This encodes the traffic across the wire making it less obvious that someone is running commands on a target machine. Pickle may come with a security implication or two, so JSON dumps instead may be a better choice in the future.  
-###### Capable of traversing a web proxy. Not satisfied.  
-  -Found a seemingly simple solution through google, although have to look into it more to see if it works.  
+###### ~~Capable of traversing a web proxy.~~  
+  -Found a seemingly simple solution through google, although I have not tested it in practice yet. Keep in mind that the communication between the client and server is not over HTTP(S), and will still try to directly connect to the server through whatever route is available. This should allow wgets, curls, and other web based commands such as package downloaders to traverse the web proxy. If I move from simple sockets and pickle to json/https in the future this will be much more valuable.
   
 # Bonus - Server  
 ###### Leverage OOP  
   -Planning on restructuring code into classes to get true OOP experience. Not satisfied.  
-~~Configurable Server (Bind port/IP)~~  
+###### ~~Configurable Server (Bind port/IP)~~  
   -Server ip/port is fed through terminal input upon running it.  
 ###### Database Backend  
   -Would most likely go with a nosql solution, mongoDB maybe? Not satisfied.  
