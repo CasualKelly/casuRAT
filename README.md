@@ -4,10 +4,10 @@
 casuRAT and it's partner server are ran entirely off of standard modules. As long as there is a somewhat updated version of python3, all that needs to be done is upload dbsetup.py & server.py to a server you control, upload casuRAT.py to targets, ensure they all have execute permissions, and run them with the below arguements.  
   
 # Client Usage:  
-#### python3 ./casuRAT_compiled.py [rhost] [rport] [beacon_interval_seconds]  
-  ##### rhost - The IP address of the C2 server  
-  ##### rport - Listening port of the C2 server  
-  ##### beacon_interval_seconds - The amount of time between attempts to communicate with the C2 server  
+#### python3 ./casuRAT_compiled.py [rhost] [rport] [beacon_interval_seconds]
+  ##### rhost - The IP address of the C2 server
+  ##### rport - Listening port of the C2 server
+  ##### beacon_interval_seconds - The amount of time between attempts to communicate with the C2 server
   
 Running casuRAT will start off with a prompt requesting user input on web proxy settings. Once the proxy chain has completed, casuRAT will make an initial attempt to reach out. Following a success or failure to connect, it will then sleep for the given time in seconds before attempting another connection. 
 
