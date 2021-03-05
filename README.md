@@ -39,11 +39,11 @@ Database Backend
 02. ~~Create a client and server that can connect to each other~~  
 03. ~~Enable call back from client to server on an interval~~  
 04. ~~Allow client to retrieve and run commands~~
-05. Have client send results upon connecting to server, have server save to file  
+05. ~~Have client send results upon connecting to server, have server save to file~~  
 06. Set up command queue on server that pushes all commands if correct IP connects  
 07. Create interface that pulls command history and corresponding results  
 08. ~~Create server interface allowing custom IP and port bind~~  
-    a. Create arguements, help, and sanitization  
+    a. ~~Create arguements, help, and sanitization~~  
 09. Implement some form of encryption (ssl?) between server and client  
 10. Implement back end DB (nosql?) to store command, result, time, and client  
 11. Objects?  
