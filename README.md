@@ -5,9 +5,9 @@ casuRAT and it's partner server are ran entirely off of standard modules. As lon
   
 # Client Usage:  
 #### python3 ./casuRAT.py [rhost] [rport] [beacon_interval_seconds]  
-  ###### rhost - The IP address of the C2 server  
-  ###### rport - Listening port of the C2 server  
-  ###### beacon_interval_seconds - The amount of time between attempts to communicate with the C2 server  
+  ##### rhost - The IP address of the C2 server  
+  ##### rport - Listening port of the C2 server  
+  ##### beacon_interval_seconds - The amount of time between attempts to communicate with the C2 server  
   
 Upon starting casuRAT.py it will make an initial attempt to reach out. Following a success or failure to connect, it will then sleep for the given time in seconds before attempting another connection. On a successful attempt, it will recieve a serialized list containing commands and parameters. It will run the commands on target, then return the stdout and stderr along with a simple timestamp/IP/command befoer each output to the server in a serialized object. As this is a proof of concept, below are statements the client prints to the terminal for troubleshooting. Real world application would have these error messages removed.  
   
@@ -19,9 +19,9 @@ Upon starting casuRAT.py it will make an initial attempt to reach out. Following
 The client should ideally run indefinitely, and is at a decently stable place now.  
   
 # Server Usage  
-### python3 ./server.py [lhost] [lport] 
- ###### lhost - Designate the listening IP address  
- ###### lport - Designate the listening port  
+#### python3 ./server.py [lhost] [lport] 
+ ##### lhost - Designate the listening IP address  
+ ##### lport - Designate the listening port  
    
 Starting the server will prompt the user with a couple input loops that will take client IP addresses, and desired commands to be ran. The server will continue to run until all commands have been retrieved before exiting. If an address connects to the server that is not authorized to retrieve commands, a string "refused" will be sent and the socket will go back into it's listening state. A current limitation includes only holding two IPs/queues. Another limitation is that the server listens in a blocking state, meaning only one connection can be serviced at a time. Wnsure that the waits on clients are staggered to not collide.  
   
