@@ -116,13 +116,14 @@ while True:
                 cmd_list = []
             else:
                 print(addr[0], "tried to connect, but was not", cmd_list[0])
+
         if cmd_list2:
             if addr[0] == cmd_list2[0]:
                 send_cmd(addr, cmd_list2)
                 return_cmds()
                 cmd_list2 = []
             else:
-                conn.send(dill_refuse)
                 print(addr[0], "tried to connect, but was not", cmd_list2[0])
+    conn.send(dill_refuse)
     s.close
     s = None
