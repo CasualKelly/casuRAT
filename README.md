@@ -97,7 +97,7 @@ server.py
   -Planning on restructuring code into classes to get true OOP experience. Not satisfied.  
 ###### ~~Configurable Server (Bind port/IP)~~  
   -Server ip/port is fed through terminal input upon running it.  
-###### Database Backend  
-  -Would most likely go with a nosql solution, mongoDB maybe? Not satisfied.  
+###### ~~Database Backend~~  
+  -sqlite3 give a very easy interface for interacting with a database file.
   
   

